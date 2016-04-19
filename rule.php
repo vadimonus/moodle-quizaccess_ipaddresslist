@@ -46,11 +46,14 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
      * @return quiz_access_rule_base|null the rule, if applicable, else null.
      */
     public static function make(quiz $quizobj, $timenow, $canignoretimelimits) {
-        //if (empty($quizobj->get_quiz()->subnet)) {
-        //    return null;
-        //}
-return null;
-        //return new self($quizobj, $timenow);
+        global $DB;
+
+        $quizid = $quizobj->get_quizid();
+        if ($DB->record_exists('quizaccess_ipaddresslist', array('quizid' => $quizid))) {
+            return new self($quizobj, $timenow);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -61,11 +64,14 @@ return null;
      *      reason if access should be prevented.
      */
     public function prevent_access() {
-        if (address_in_subnet(getremoteaddr(), $this->quiz->subnet)) {
-            return false;
-        } else {
-            return get_string('subnetwrong', 'quizaccess_ipaddress');
+        global $DB;
+
+        foreach ($this->quiz->ipaddresslistsubnets as $subnet) {
+            if (address_in_subnet(getremoteaddr(), $subnet)) {
+                return false;
+            }
         }
+        return get_string('subnetwrong', 'quizaccess_ipaddress');
     }
 
     /**
@@ -116,30 +122,6 @@ return null;
     }
 
     /**
-     * Return the bits of SQL needed to load all the settings from all the access
-     * plugins in one DB query. The easiest way to understand what you need to do
-     * here is probalby to read the code of {@link quiz_access_manager::load_settings()}.
-     *
-     * If you have some settings that cannot be loaded in this way, then you can
-     * use the {@link get_extra_settings()} method instead, but that has
-     * performance implications.
-     *
-     * @param int $quizid the id of the quiz we are loading settings for. This
-     *     can also be accessed as quiz.id in the SQL. (quiz is a table alisas for {quiz}.)
-     * @return array with three elements:
-     *     1. fields: any fields to add to the select list. These should be alised
-     *        if neccessary so that the field name starts the name of the plugin.
-     *     2. joins: any joins (should probably be LEFT JOINS) with other tables that
-     *        are needed.
-     *     3. params: array of placeholder values that are needed by the SQL. You must
-     *        used named placeholders, and the placeholder names should start with the
-     *        plugin name, to avoid collisions.
-     */
-    public static function get_settings_sql($quizid) {
-        return array('', '', array());
-    }
-
-    /**
      * You can use this method to load any extra settings your plugin has that
      * cannot be loaded efficiently with get_settings_sql().
      * @param int $quizid the quiz id.
@@ -147,7 +129,14 @@ return null;
      *      start with the name of your plugin to avoid collisions.
      */
     public static function get_extra_settings($quizid) {
-        return array();
+        global $DB;
+
+        $sql = 'SELECT subnets.subnet
+            FROM {quizaccess_ipaddresslist} rules
+            INNER JOIN {quizaccess_ipaddresslist_net} subnets ON rules.subnetid = subnets.id
+            WHERE rules.quizid = :quizid';
+        $subnets = $DB->get_fieldset_sql($sql, array('quizid' => $quizid));
+        return array('ipaddresslistsubnets' => $subnets);
     }
 /*
     public static function add_settings_form_fields(
