@@ -7,13 +7,13 @@ Requirements
 
 Installation
 ------------
-Copy the purgequestioncategory folder into your Moodle /mod/quiz/accessrule directory and 
+Copy the ipaddresslist folder into your Moodle /mod/quiz/accessrule directory and 
 visit your Admin Notification page to complete the installation.
 
 Usage
 -----
-Visit admin page to configure predefined IP adress list.
-When you setup quiz, you may select any named IP list. Selecting none means that this limitation will not apply.
+Visit admin page to configure IP adress list. When you setup quiz, you may select any named IP list. 
+Selecting none means that this limitation will not apply.
 
 Author
 ------

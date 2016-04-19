@@ -87,11 +87,14 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
             mod_quiz_mod_form $quizform, MoodleQuickForm $mform) {
         global $DB;
 
+        $pluginconfig = get_config('quizaccess_ipaddresslist');
         $subnets = $DB->get_records_menu('quizaccess_ipaddresslist_net', array(), 'sortorder ASC, name ASC', 'id, name');
 
         $select = $mform->addElement('select', 'ipaddresslistsubnets',
                 get_string('allowedsubnets', 'quizaccess_ipaddresslist'), $subnets);
         $select->setMultiple(true);
+        $mform->setDefault('ipaddresslistsubnets', $pluginconfig->defaultallowedsubnets);
+        $mform->setAdvanced('ipaddresslistsubnets', $pluginconfig->defaultallowedsubnets_adv);
         $mform->addHelpButton('ipaddresslistsubnets', 'allowedsubnets', 'quizaccess_ipaddresslist');
     }
 

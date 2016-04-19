@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'quizaccess_ipaddresslist';
-$plugin->version   = 2016041900;
+$plugin->version   = 2016041902;
 $plugin->release = '0.9';
 $plugin->maturity = MATURITY_RC;
 $plugin->requires = 2015051100; // Moodle 3.0.
