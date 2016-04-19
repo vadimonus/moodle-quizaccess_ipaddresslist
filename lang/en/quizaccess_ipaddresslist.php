@@ -24,12 +24,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['addsubnet'] = 'Add subnet';
+$string['addsubnet'] = 'Add location';
 $string['allowedsubnets'] = 'Allowed locations';
 $string['allowedsubnets_help'] = 'Quiz access may be restricted to particular locations depending on user\'s IP address. List of locations and corresponding IP subnets is defined by site administrator. Use Ctrl to select multiple locations. Select none to disable this location check.';
-$string['editsubnet'] = 'Edit subnet';
-$string['managesubnets'] = 'Subnets list management';
+$string['editsubnet'] = 'Editing location';
+$string['managesubnets'] = 'Locations management';
 $string['pluginname'] = 'IP address list quiz access rule';
-$string['subnet'] = 'Subnet';
+$string['subnet'] = 'IP subnet';
 $string['subnet_help'] = '<p>Specify comma-separated list of partial or full IP address numbers.</p><p>Examples:</p><ul><li>192.168.10.1</li><li>192.168.</li><li>231.54.211.0/20</li><li>231.3.56.10-20</li><li>192.168.10.1,192.168.,231.54.211.0/20,231.3.56.10-20</li></ul>';
 
