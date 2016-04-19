@@ -33,7 +33,6 @@ require_once($CFG->dirroot . '/mod/quiz/accessrule/accessrulebase.php');
  * @copyright  2016 Vadim Dvorovenko <Vadimon@mail.ru>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class quizaccess_ipaddresslist extends quiz_access_rule_base {
 
     /**
@@ -57,9 +56,8 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
     }
 
     /**
-     * Whether or not a user should be allowed to start a new attempt at this quiz now.
-     * @param int $numattempts the number of previous attempts this user has made.
-     * @param object $lastattempt information about the user's last completed attempt.
+     * Whether the user should be blocked from starting a new attempt or continuing
+     * an attempt now.
      * @return string false if access should be allowed, a message explaining the
      *      reason if access should be prevented.
      */

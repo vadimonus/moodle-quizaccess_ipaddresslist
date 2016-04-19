@@ -32,6 +32,10 @@ require_once($CFG->dirroot . '/mod/quiz/backup/moodle2/backup_mod_quiz_access_su
  * If this plugin is required, a <quizaccess_ipaddresslist> tag
  * will be added to the XML in the appropriate place. Otherwise nothing will be
  * added.
+ *
+ * @package    quizaccess_ipaddresslist
+ * @copyright  2016 Vadim Dvorovenko <Vadimon@mail.ru>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class backup_quizaccess_ipaddresslist_subplugin extends backup_mod_quiz_access_subplugin {
 

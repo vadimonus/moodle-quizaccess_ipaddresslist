@@ -31,6 +31,10 @@ require_once($CFG->dirroot . '/mod/quiz/backup/moodle2/restore_mod_quiz_access_s
  *
  * Backup will contatin several <quizaccess_ipaddresslist> tags, containing required
  * <subnetid>.
+ *
+ * @package    quizaccess_ipaddresslist
+ * @copyright  2016 Vadim Dvorovenko <Vadimon@mail.ru>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class restore_quizaccess_ipaddresslist_subplugin extends restore_mod_quiz_access_subplugin {
 

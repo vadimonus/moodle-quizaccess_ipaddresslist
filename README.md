@@ -3,7 +3,7 @@ IP list quiz access rule
 
 Requirements
 ------------
-- Moodle 3.0 (build 2015051100) or later.   ???
+- Moodle 3.0 (build 2015051100) or later.
 
 Installation
 ------------
@@ -26,5 +26,5 @@ Links
 
 Changes
 -------
-Release 0.1 (build 2016041800):
+Release 0.9 (build 2016041900):
 - Initial release.

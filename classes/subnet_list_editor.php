@@ -40,7 +40,8 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
      */
     public function __construct() {
         $this->nosave = true;
-        parent::__construct('quizaccess_ipaddresslist_subnet_list_editor', get_string('managesubnets', 'quizaccess_ipaddresslist'), '', '');
+        parent::__construct('quizaccess_ipaddresslist_subnet_list_editor',
+                get_string('managesubnets', 'quizaccess_ipaddresslist'), '', '');
     }
 
     /**
@@ -86,7 +87,7 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
 
         $actions = '';
         if ($current != 1 && $count > 1) {
-            $upurl = new moodle_url($url, array('action' => 'up', 'id' =>$subnet->id));
+            $upurl = new moodle_url($url, array('action' => 'up', 'id' => $subnet->id));
             $upimg = html_writer::img($OUTPUT->pix_url('t/up'), get_string('up'), array('class' => 'iconsmall'));
             $upattr = array('title' => get_string('up'));
             $uplink = html_writer::link($upurl, $upimg, $upattr);
@@ -97,7 +98,7 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
         }
 
         if ($current != $count && $count > 1) {
-            $downurl = new moodle_url($url, array('action' => 'down', 'id' =>$subnet->id));
+            $downurl = new moodle_url($url, array('action' => 'down', 'id' => $subnet->id));
             $downimg = html_writer::img($OUTPUT->pix_url('t/down'), get_string('down'), array('class' => 'iconsmall'));
             $downattr = array('title' => get_string('down'));
             $downlink = html_writer::link($downurl, $downimg, $downattr);
@@ -107,13 +108,13 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
             $actions .= $downimg;
         }
 
-        $editurl = new moodle_url('/mod/quiz/accessrule/ipaddresslist/subnet.php', array('id' =>$subnet->id));
+        $editurl = new moodle_url('/mod/quiz/accessrule/ipaddresslist/subnet.php', array('id' => $subnet->id));
         $editimg = html_writer::img($OUTPUT->pix_url('t/edit'), get_string('edit'), array('class' => 'iconsmall'));
         $editattr = array('title' => get_string('edit'));
         $editlink = html_writer::link($editurl, $editimg, $editattr);
         $actions .= $editlink;
 
-        $deleteurl = new moodle_url($url, array('action' => 'delete', 'id' =>$subnet->id));
+        $deleteurl = new moodle_url($url, array('action' => 'delete', 'id' => $subnet->id));
         $deleteimg = html_writer::img($OUTPUT->pix_url('t/delete'), get_string('delete'), array('class' => 'iconsmall'));
         $deleteattr = array('title' => get_string('delete'));
         $deletelink = html_writer::link($deleteurl, $deleteimg, $deleteattr);
