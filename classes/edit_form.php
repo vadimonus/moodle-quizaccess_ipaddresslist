@@ -43,14 +43,16 @@ class quizaccess_ipaddresslist_edit_form extends moodleform {
 
         $mform->addElement('header', 'header', get_string('editsubnet', 'quizaccess_ipaddresslist'));
 
-        $qcategory = $mform->addElement('hidden', 'id');
+        $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 
-        $qcategory = $mform->addElement('text', 'name', get_string('name'));
+        $mform->addElement('text', 'name', get_string('name'));
         $mform->setType('name', PARAM_TEXT);
+        $mform->addRule('name', get_string('required'), 'required', null, 'client');
 
-        $qcategory = $mform->addElement('text', 'subnet', get_string('subnet', 'quizaccess_ipaddresslist'));
+        $mform->addElement('text', 'subnet', get_string('subnet', 'quizaccess_ipaddresslist'));
         $mform->setType('subnet', PARAM_TEXT);
+        $mform->addRule('subnet', get_string('required'), 'required', null, 'client');
         $mform->addHelpButton('subnet', 'subnet', 'quizaccess_ipaddresslist');
 
         $this->add_action_buttons(true);

@@ -66,7 +66,11 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
     public function prevent_access() {
         global $DB;
 
-        foreach ($this->quiz->ipaddresslistsubnets as $subnet) {
+        list($inorequal, $params) = $DB->get_in_or_equal($this->quiz->ipaddresslistsubnets);
+        $select = 'id ' . $inorequal;
+        $subnets = $DB->get_records_select_menu('quizaccess_ipaddresslist_net', $select, $params, 'sortorder ASC, name ASC',
+                'id, subnet');
+        foreach ($subnets as $subnet) {
             if (address_in_subnet(getremoteaddr(), $subnet)) {
                 return false;
             }
@@ -83,21 +87,14 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
      */
     public static function add_settings_form_fields(
             mod_quiz_mod_form $quizform, MoodleQuickForm $mform) {
-        // By default do nothing.
-    }
+        global $DB;
 
-    /**
-     * Validate the data from any form fields added using {@link add_settings_form_fields()}.
-     * @param array $errors the errors found so far.
-     * @param array $data the submitted form data.
-     * @param array $files information about any uploaded files.
-     * @param mod_quiz_mod_form $quizform the quiz form object.
-     * @return array $errors the updated $errors array.
-     */
-    public static function validate_settings_form_fields(array $errors,
-            array $data, $files, mod_quiz_mod_form $quizform) {
+        $subnets = $DB->get_records_menu('quizaccess_ipaddresslist_net', array(), 'sortorder ASC, name ASC', 'id, name');
 
-        return $errors;
+        $select = $mform->addElement('select', 'ipaddresslistsubnets',
+                get_string('allowedsubnets', 'quizaccess_ipaddresslist'), $subnets);
+        $select->setMultiple(true);
+        $mform->addHelpButton('ipaddresslistsubnets', 'allowedsubnets', 'quizaccess_ipaddresslist');
     }
 
     /**
@@ -107,7 +104,15 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
      *      which is the id of the quiz being saved.
      */
     public static function save_settings($quiz) {
-        // By default do nothing.
+        global $DB;
+
+        $DB->delete_records('quizaccess_ipaddresslist', array('quizid' => $quiz->id));
+        foreach ($quiz->ipaddresslistsubnets as $subnetid) {
+            $ipaddresslistrecord = new stdClass();
+            $ipaddresslistrecord->quizid = $quiz->id;
+            $ipaddresslistrecord->subnetid = $subnetid;
+            $DB->insert_record('quizaccess_ipaddresslist', $ipaddresslistrecord);
+        }
     }
 
     /**
@@ -118,7 +123,9 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
      * @since Moodle 2.7.1, 2.6.4, 2.5.7
      */
     public static function delete_settings($quiz) {
-        // By default do nothing.
+        global $DB;
+
+        $DB->delete_records('quizaccess_ipaddresslist', array('quizid' => $quiz->id));
     }
 
     /**
@@ -131,123 +138,8 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
     public static function get_extra_settings($quizid) {
         global $DB;
 
-        $sql = 'SELECT subnets.subnet
-            FROM {quizaccess_ipaddresslist} rules
-            INNER JOIN {quizaccess_ipaddresslist_net} subnets ON rules.subnetid = subnets.id
-            WHERE rules.quizid = :quizid';
-        $subnets = $DB->get_fieldset_sql($sql, array('quizid' => $quizid));
+        $subnets = $DB->get_records_menu('quizaccess_ipaddresslist', array('quizid' => $quizid), '', 'id, subnetid');
         return array('ipaddresslistsubnets' => $subnets);
     }
-/*
-    public static function add_settings_form_fields(
-        mod_quiz_mod_form $quizform, MoodleQuickForm $mform) {
-        global $DB, $COURSE, $PAGE, $CFG;
-
-        $lessontypes = $DB->get_records('block_supervised_lessontype', array('courseid' => $COURSE->id));
-
-        // Radiobuttons (modes).
-        $radioarray = array();
-        $radioarray[] =& $mform->createElement('radio', 'supervisedmode', '',
-            get_string('checknotrequired', 'quizaccess_supervisedcheck'), 0);
-        if (count($lessontypes) > 0) {  // Render 3rd mode only if we have some lesson types in course.
-            $radioarray[] =& $mform->createElement('radio', 'supervisedmode', '',
-                get_string('checkforall', 'quizaccess_supervisedcheck'), 1);
-            $radioarray[] =& $mform->createElement('radio', 'supervisedmode', '',
-                get_string('customcheck', 'quizaccess_supervisedcheck'), 2);
-        } else { // No lesson types, so just it's just yes/no.
-            $radioarray[] =& $mform->createElement('radio', 'supervisedmode', '',
-                get_string('checkrequired', 'quizaccess_supervisedcheck'), 1);
-        }
-        $mform->addGroup($radioarray, 'radioar',
-            get_string('allowcontrol', 'quizaccess_supervisedcheck'), '<br/>', false);
-
-        // Checkboxes with lessontypes for 3rd mode.
-        if (count($lessontypes) > 0) {
-            $cbarray = array();
-            foreach ($lessontypes as $id => $lessontype) {
-                $cbarray[] =& $mform->createElement('advcheckbox', 'supervisedlessontype_'.$id, '', $lessontype->name);
-            }
-            $mform->addGroup($cbarray, 'lessontypesgroup', '', '<br/>', false);
-        }
-
-        $PAGE->requires->jquery();
-        $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/mod/quiz/accessrule/supervisedcheck/lib.js') );
-        $PAGE->requires->css( new moodle_url($CFG->wwwroot . '/mod/quiz/accessrule/supervisedcheck/style.css') );
-    }
-
-    public static function save_settings($quiz) {
-        global $DB, $COURSE;
-        $oldrules = $DB->get_records('quizaccess_supervisedcheck', array('quizid' => $quiz->id));
-
-        if ($quiz->supervisedmode == 2) {
-            // Find checked lessontypes.
-            $lessontypesincourse = $DB->get_records('block_supervised_lessontype', array('courseid' => $COURSE->id));
-            $lessontypesinquiz = array();
-
-            // Checks for all lesson types.
-            foreach ($lessontypesincourse as $id => $lessontype) {
-                if ($quiz->{'supervisedlessontype_'.$id}) {
-                    $lessontypesinquiz[] = $id;
-                }
-            }
-
-            // Update rules.
-            if (empty($lessontypesinquiz)) {
-                // If user didn't check any lessontype - add special lessontype with id = -1.
-                $lessontypesinquiz[] = -1;
-            }
-
-            for ($i = 0; $i < count($lessontypesinquiz); $i++) {
-                // Update an existing rule if possible.
-                $rule = array_shift($oldrules);
-                if (!$rule) {
-                    $rule                   = new stdClass();
-                    $rule->quizid           = $quiz->id;
-                    $rule->lessontypeid     = -1;
-                    $rule->supervisedmode   = $quiz->supervisedmode; // ...must be 2.
-                    $rule->id               = $DB->insert_record('quizaccess_supervisedcheck', $rule);
-                }
-                $rule->lessontypeid         = $lessontypesinquiz[$i];
-                $rule->supervisedmode       = $quiz->supervisedmode; // ...must be 2.
-                $DB->update_record('quizaccess_supervisedcheck', $rule);
-            }
-            $oldrulesids = array();
-            // Delete any remaining old rules.
-            if(!empty($oldrules)) {
-                foreach ($oldrules as $oldrule) {
-                    $oldrulesids[] = $oldrule->id;
-                }
-                list($insql, $inparams) = $DB->get_in_or_equal($oldrulesids);
-                $sqlstring = " id ";
-                $sqlstring .= $insql;
-                $DB->delete_records_select('quizaccess_supervisedcheck', $sqlstring, $inparams);
-            }
-        } else {
-            // Update an existing rule if possible.
-            $rule = array_shift($oldrules);
-            if (!$rule) {
-                $rule                   = new stdClass();
-                $rule->quizid           = $quiz->id;
-                $rule->lessontypeid     = -1;
-                $rule->supervisedmode   = $quiz->supervisedmode;   // ...0 or 1.
-                $rule->id               = $DB->insert_record('quizaccess_supervisedcheck', $rule);
-            }
-            $rule->lessontypeid         = -1;
-            $rule->supervisedmode       = $quiz->supervisedmode;   // ...0 or 1.
-            $DB->update_record('quizaccess_supervisedcheck', $rule);
-            $oldrulesids = array();
-            // Delete any remaining old rules.
-            if(!empty($oldrules)) {
-                foreach ($oldrules as $oldrule) {
-                    $oldrulesids[] = $oldrule->id;
-                }
-                list($insql, $inparams) = $DB->get_in_or_equal($oldrulesids);
-                $sqlstring = " id ";
-                $sqlstring .= $insql;
-                $DB->delete_records_select('quizaccess_supervisedcheck', $sqlstring, $inparams);
-            }
-        }
-    }
-*/
 
 }

@@ -25,6 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['addsubnet'] = 'Add subnet';
+$string['allowedsubnets'] = 'Allowed locations';
+$string['allowedsubnets_help'] = 'Quiz access may be restricted to particular locations depending on user\'s IP address. List of locations and corresponding IP subnets is defined by site administrator. Use Ctrl to select multiple locations. Select none to disable this location check.';
 $string['editsubnet'] = 'Edit subnet';
 $string['managesubnets'] = 'Subnets list management';
 $string['pluginname'] = 'IP address list quiz access rule';
