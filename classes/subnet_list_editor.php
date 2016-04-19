@@ -88,7 +88,8 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
         if ($current != 1 && $count > 1) {
             $upurl = new moodle_url($url, array('action' => 'up', 'id' =>$subnet->id));
             $upimg = html_writer::img($OUTPUT->pix_url('t/up'), get_string('up'), array('class' => 'iconsmall'));
-            $uplink = html_writer::link($upurl, $upimg);
+            $upattr = array('title' => get_string('up'));
+            $uplink = html_writer::link($upurl, $upimg, $upattr);
             $actions .= $uplink;
         } else {
             $upimg = html_writer::img($OUTPUT->pix_url('spacer'), '', array('class' => 'iconsmall'));
@@ -98,21 +99,24 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
         if ($current != $count && $count > 1) {
             $downurl = new moodle_url($url, array('action' => 'down', 'id' =>$subnet->id));
             $downimg = html_writer::img($OUTPUT->pix_url('t/down'), get_string('down'), array('class' => 'iconsmall'));
-            $downlink = html_writer::link($downurl, $downimg);
+            $downattr = array('title' => get_string('down'));
+            $downlink = html_writer::link($downurl, $downimg, $downattr);
             $actions .= $downlink;
         } else {
             $downimg = html_writer::img($OUTPUT->pix_url('spacer'), '', array('class' => 'iconsmall'));
             $actions .= $downimg;
         }
 
-        $editurl = new moodle_url($url, array('action' => 'edit', 'id' =>$subnet->id));
+        $editurl = new moodle_url('/mod/quiz/accessrule/ipaddresslist/subnet.php', array('id' =>$subnet->id));
         $editimg = html_writer::img($OUTPUT->pix_url('t/edit'), get_string('edit'), array('class' => 'iconsmall'));
-        $editlink = html_writer::link($editurl, $editimg);
+        $editattr = array('title' => get_string('edit'));
+        $editlink = html_writer::link($editurl, $editimg, $editattr);
         $actions .= $editlink;
 
         $deleteurl = new moodle_url($url, array('action' => 'delete', 'id' =>$subnet->id));
         $deleteimg = html_writer::img($OUTPUT->pix_url('t/delete'), get_string('delete'), array('class' => 'iconsmall'));
-        $deletelink = html_writer::link($deleteurl, $deleteimg);
+        $deleteattr = array('title' => get_string('delete'));
+        $deletelink = html_writer::link($deleteurl, $deleteimg, $deleteattr);
         $actions .= $deletelink;
 
         return $actions;
@@ -130,24 +134,25 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
 
         $table = new html_table();
         $table->head = array(get_string('name'), get_string('subnet', 'quizaccess_ipaddresslist'), '');
-        $table->colclasses = array('leftalign', 'leftalign', 'center');
+        $table->colclasses = array('leftalign', 'leftalign', 'centeralign');
         $table->id = 'quizaccess_ipaddresslist';
         $table->attributes['class'] = 'admintable generaltable';
         $table->data = array();
-        $subnets = $DB->get_records('quizaccess_ipaddresslist_net', array(), 'name ASC');
+        $subnets = $DB->get_records('quizaccess_ipaddresslist_net', array(), 'sortorder ASC');
         $current = 1;
         $count = count($subnets);
         foreach ($subnets as $subnet) {
             $table->data[] = array($subnet->name, $subnet->subnet, $this->actions_list($subnet, $current, $count));
             $current++;
         }
-        $addurl = new moodle_url('/mod/quiz/accessrule/ipaddresslist/subnets.php', array('sesskey' => sesskey()));
+        $addurl = new moodle_url('/mod/quiz/accessrule/ipaddresslist/subnet.php');
         $addimg = html_writer::img($OUTPUT->pix_url('t/add'), get_string('add'), array('class' => 'iconsmall'));
-        $addlink = html_writer::link($addurl, $addimg);
+        $addattr = array('title' => get_string('add'));
+        $addlink = html_writer::link($addurl, $addimg, $addattr);
         $table->data[] = array($addlink, '', '');
 
-        $return = $OUTPUT->heading(get_string('managesubnets', 'quizaccess_ipaddresslist'), 3, 'main', true);
-        $return .= $OUTPUT->box_start('generalbox loggingui');
+        $return = $OUTPUT->heading(get_string('managesubnets', 'quizaccess_ipaddresslist'), 3);
+        $return .= $OUTPUT->box_start('generalbox');
         $return .= html_writer::table($table);
         $return .= html_writer::div(get_string('tablenosave', 'admin'));
         $return .= $OUTPUT->box_end();

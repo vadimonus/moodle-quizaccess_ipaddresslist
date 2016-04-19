@@ -25,8 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['addsubnet'] = 'Add subnet';
+$string['editsubnet'] = 'Edit subnet';
 $string['managesubnets'] = 'Subnets list management';
 $string['pluginname'] = 'IP address list quiz access rule';
 $string['subnet'] = 'Subnet';
-$string['subnetinfo'] = 'Subnet description....';
+$string['subnet_help'] = '<p>Specify comma-separated list of partial or full IP address numbers.</p><p>Examples:</p><ul><li>192.168.10.1</li><li>192.168.</li><li>231.54.211.0/20</li><li>231.3.56.10-20</li><li>192.168.10.1,192.168.,231.54.211.0/20,231.3.56.10-20</li></ul>';
 
