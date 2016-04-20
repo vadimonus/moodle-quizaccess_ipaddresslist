@@ -105,11 +105,13 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
         global $DB;
 
         $DB->delete_records('quizaccess_ipaddresslist', array('quizid' => $quiz->id));
-        foreach ($quiz->ipaddresslistsubnets as $subnetid) {
-            $ipaddresslistrecord = new stdClass();
-            $ipaddresslistrecord->quizid = $quiz->id;
-            $ipaddresslistrecord->subnetid = $subnetid;
-            $DB->insert_record('quizaccess_ipaddresslist', $ipaddresslistrecord);
+        if (!empty($quiz->ipaddresslistsubnets)) {
+            foreach ($quiz->ipaddresslistsubnets as $subnetid) {
+                $ipaddresslistrecord = new stdClass();
+                $ipaddresslistrecord->quizid = $quiz->id;
+                $ipaddresslistrecord->subnetid = $subnetid;
+                $DB->insert_record('quizaccess_ipaddresslist', $ipaddresslistrecord);
+            }
         }
     }
 
