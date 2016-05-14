@@ -45,7 +45,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
      * @return quiz_access_rule_base|null the rule, if applicable, else null.
      */
     public static function make(quiz $quizobj, $timenow, $canignoretimelimits) {
-        if (!empty($quizobj->get_quiz()->ipaddresslistsubnets)) {
+        if (!empty($quizobj->get_quiz()->ipaddresslistsubnetsarray)) {
             return new self($quizobj, $timenow);
         } else {
             return null;
@@ -61,7 +61,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
     public function prevent_access() {
         global $DB;
 
-        list($inorequal, $params) = $DB->get_in_or_equal($this->quiz->ipaddresslistsubnets);
+        list($inorequal, $params) = $DB->get_in_or_equal($this->quiz->ipaddresslistsubnetsarray);
         $select = 'id ' . $inorequal;
         $subnets = $DB->get_records_select_menu('quizaccess_ipaddresslist_net', $select, $params, 'sortorder ASC, name ASC',
                 'id, subnet');
@@ -87,11 +87,20 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
         $pluginconfig = get_config('quizaccess_ipaddresslist');
         $subnets = $DB->get_records_menu('quizaccess_ipaddresslist_net', array(), 'sortorder ASC, name ASC', 'id, name');
 
-        $select = $mform->addElement('select', 'ipaddresslistsubnets',
-                get_string('allowedsubnets', 'quizaccess_ipaddresslist'), $subnets);
-        $select->setMultiple(true);
-        $mform->setDefault('ipaddresslistsubnets', $pluginconfig->defaultallowedsubnets);
-        $mform->setAdvanced('ipaddresslistsubnets', $pluginconfig->defaultallowedsubnets_adv);
+        if (!empty($pluginconfig->defaultallowedsubnets)) {
+            $defaultsubnets = explode(',', $pluginconfig->defaultallowedsubnets);
+        } else {
+            $defaultsubnets = array();
+        }
+        foreach($defaultsubnets as $subnetid) {
+            $mform->setDefault("ipaddresslistsubnets[$subnetid]", 1);
+        }
+        $group = array();
+        foreach($subnets as $subnetid => $subnetname) {
+            $group[] = $mform->createElement('checkbox', "ipaddresslistsubnets[$subnetid]", '', $subnetname);
+        }
+        $mform->addGroup($group, 'ipaddresslistsubnets', get_string('allowedsubnets', 'quizaccess_ipaddresslist'), '<br />', false);
+        $mform->setAdvanced("ipaddresslistsubnets", $pluginconfig->defaultallowedsubnets_adv);
         $mform->addHelpButton('ipaddresslistsubnets', 'allowedsubnets', 'quizaccess_ipaddresslist');
     }
 
@@ -106,7 +115,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
 
         $DB->delete_records('quizaccess_ipaddresslist', array('quizid' => $quiz->id));
         if (!empty($quiz->ipaddresslistsubnets)) {
-            foreach ($quiz->ipaddresslistsubnets as $subnetid) {
+            foreach ($quiz->ipaddresslistsubnets as $subnetid => $unused) {
                 $ipaddresslistrecord = new stdClass();
                 $ipaddresslistrecord->quizid = $quiz->id;
                 $ipaddresslistrecord->subnetid = $subnetid;
@@ -138,8 +147,18 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
     public static function get_extra_settings($quizid) {
         global $DB;
 
-        $subnets = $DB->get_records_menu('quizaccess_ipaddresslist', array('quizid' => $quizid), '', 'id, subnetid');
-        return array('ipaddresslistsubnets' => $subnets);
+        $subnets = array();
+        $allsubnets = $DB->get_records('quizaccess_ipaddresslist_net');
+        $usedsubnets = $DB->get_records_menu('quizaccess_ipaddresslist', array('quizid' => $quizid), '', 'id, subnetid');
+        foreach ($allsubnets as $subnetid => $subnet) {
+            if (in_array($subnetid, $usedsubnets)) {
+                $subnets["ipaddresslistsubnets[$subnetid]"] = 1;
+            } else {
+                $subnets["ipaddresslistsubnets[$subnetid]"] = 0;
+            }
+        }
+        $subnets['ipaddresslistsubnetsarray'] = $usedsubnets;
+        return $subnets;
     }
 
 }

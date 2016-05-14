@@ -28,3 +28,7 @@ Changes
 -------
 Release 0.9 (build 2016041900):
 - Initial release.
+
+Release 1.1 (build 20160514):
+- Using checkboxes instead of multiselect list.
+- Fixing prolem with empty page with new settings on plugin install.
