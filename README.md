@@ -3,7 +3,7 @@ IP list quiz access rule
 
 Requirements
 ------------
-- Moodle 2.2 (build 2011120500) or later.
+- Moodle 2.7 (build 2014051200) or later.
 
 Installation
 ------------
@@ -29,6 +29,9 @@ Changes
 Release 0.9 (build 2016041900):
 - Initial release.
 
-Release 1.1 (build 20160514):
+Release 1.0 (build 2016041902):
+- First stable version.
+
+Release 1.1 (build 2016051400):
 - Using checkboxes instead of multiselect list.
-- Fixing prolem with empty page with new settings on plugin install.
+- Fixing prolem with empty new settings page on plugin install.
