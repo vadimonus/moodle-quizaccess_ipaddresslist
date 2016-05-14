@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once("$CFG->dirroot/mod/quiz/accessrule/ipaddresslist/classes/configmulticheckbox_with_advanced.php");
-
 if ($ADMIN->fulltree) {
     $settings->add(new quizaccess_ipaddresslist_subnet_list_editor());
 
