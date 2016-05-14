@@ -90,6 +90,9 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
         }
 
         $subnets = $DB->get_records_menu('quizaccess_ipaddresslist_net', array(), 'sortorder ASC, name ASC', 'id, name');
+        if (empty($subnets)) {
+            return;
+        }
 
         if (!empty($pluginconfig->defaultallowedsubnets)) {
             $defaultsubnets = explode(',', $pluginconfig->defaultallowedsubnets);
