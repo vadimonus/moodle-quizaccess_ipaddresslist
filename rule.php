@@ -95,7 +95,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
         }
 
         $group = array();
-        foreach($subnets as $subnetid => $subnetname) {
+        foreach ($subnets as $subnetid => $subnetname) {
             $group[] = $mform->createElement('checkbox', "ipaddresslistsubnets[$subnetid]", '', $subnetname);
         }
         $mform->addGroup($group, 'ipaddresslistsubnets', get_string('allowedsubnets', 'quizaccess_ipaddresslist'), '<br />', false);
@@ -106,7 +106,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
         } else {
             $defaultsubnets = array();
         }
-        foreach($defaultsubnets as $subnetid) {
+        foreach ($defaultsubnets as $subnetid) {
             $mform->setDefault("ipaddresslistsubnets[$subnetid]", 1);
         }
     }
