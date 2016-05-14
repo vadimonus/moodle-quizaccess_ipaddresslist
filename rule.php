@@ -98,7 +98,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
         foreach ($subnets as $subnetid => $subnetname) {
             $group[] = $mform->createElement('checkbox', "ipaddresslistsubnets[$subnetid]", '', $subnetname);
         }
-        $mform->addGroup($group, 'ipaddresslistsubnets', get_string('allowedsubnets', 'quizaccess_ipaddresslist'), '<br />', false);
+        $mform->addGroup($group, 'ipaddresslistsubnets', get_string('allowedsubnets', 'quizaccess_ipaddresslist'), '', false);
         $mform->setAdvanced("ipaddresslistsubnets", $pluginconfig->defaultallowedsubnets_adv);
         $mform->addHelpButton('ipaddresslistsubnets', 'allowedsubnets', 'quizaccess_ipaddresslist');
         if (!empty($pluginconfig->defaultallowedsubnets)) {

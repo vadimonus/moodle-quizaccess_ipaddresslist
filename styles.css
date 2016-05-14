@@ -1,0 +1,8 @@
+.mform #fgroup_id_ipaddresslistsubnets.fitem .felement > span {
+    display: block;
+}
+
+.mform #fgroup_id_ipaddresslistsubnets.fitem .felement {
+    overflow-y: auto;
+    max-height: 250px;
+}
