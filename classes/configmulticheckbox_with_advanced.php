@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2016 Vadim Dvorovenko <Vadimon@mail.ru>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class quizaccess_ipaddresslist_configmultiselect_with_advanced extends admin_setting_configmultiselect {
+class quizaccess_ipaddresslist_configmulticheckbox_with_advanced extends admin_setting_configmulticheckbox {
 
     /**
      * Constructor
@@ -44,6 +44,29 @@ class quizaccess_ipaddresslist_configmultiselect_with_advanced extends admin_set
     public function __construct($name, $visiblename, $description, $defaultsetting, $choices) {
         parent::__construct($name, $visiblename, $description, $defaultsetting['value'], $choices);
         $this->set_advanced_flag_options(admin_setting_flag::ENABLED, !empty($defaultsetting['adv']));
+    }
+
+    /**
+     * Returns the select settings.
+     * Does not return null as parent to skip displaying this setting on plugin install.
+     *
+     * @return array. Array of settings
+     */
+    public function get_setting() {
+        $result = $this->config_read($this->name);
+
+        if (is_null($result)) {
+            return array();
+        }
+        if ($result === '') {
+            return array();
+        }
+        $enabled = explode(',', $result);
+        $setting = array();
+        foreach ($enabled as $option) {
+            $setting[$option] = 1;
+        }
+        return $setting;
     }
 
 }

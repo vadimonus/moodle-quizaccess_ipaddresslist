@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once("$CFG->dirroot/mod/quiz/accessrule/ipaddresslist/classes/configmultiselect_with_advanced.php");
+require_once("$CFG->dirroot/mod/quiz/accessrule/ipaddresslist/classes/configmulticheckbox_with_advanced.php");
 
 if ($ADMIN->fulltree) {
     $settings->add(new quizaccess_ipaddresslist_subnet_list_editor());
@@ -34,7 +34,7 @@ if ($ADMIN->fulltree) {
 
     $choices = $DB->get_records_menu('quizaccess_ipaddresslist_net', array(), 'sortorder ASC, name ASC', 'id, name');
     $defaultsetting = array('value' => array(), 'adv' => true);
-    $settings->add(new quizaccess_ipaddresslist_configmultiselect_with_advanced('quizaccess_ipaddresslist/defaultallowedsubnets',
+    $settings->add(new quizaccess_ipaddresslist_configmulticheckbox_with_advanced('quizaccess_ipaddresslist/defaultallowedsubnets',
             get_string('allowedsubnets', 'quizaccess_ipaddresslist'), '', $defaultsetting, $choices));
     unset($choices);
     unset($defaultsetting);
