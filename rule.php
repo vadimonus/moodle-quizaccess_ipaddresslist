@@ -94,6 +94,13 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
             return;
         }
 
+        $group = array();
+        foreach($subnets as $subnetid => $subnetname) {
+            $group[] = $mform->createElement('checkbox', "ipaddresslistsubnets[$subnetid]", '', $subnetname);
+        }
+        $mform->addGroup($group, 'ipaddresslistsubnets', get_string('allowedsubnets', 'quizaccess_ipaddresslist'), '<br />', false);
+        $mform->setAdvanced("ipaddresslistsubnets", $pluginconfig->defaultallowedsubnets_adv);
+        $mform->addHelpButton('ipaddresslistsubnets', 'allowedsubnets', 'quizaccess_ipaddresslist');
         if (!empty($pluginconfig->defaultallowedsubnets)) {
             $defaultsubnets = explode(',', $pluginconfig->defaultallowedsubnets);
         } else {
@@ -102,13 +109,6 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
         foreach($defaultsubnets as $subnetid) {
             $mform->setDefault("ipaddresslistsubnets[$subnetid]", 1);
         }
-        $group = array();
-        foreach($subnets as $subnetid => $subnetname) {
-            $group[] = $mform->createElement('checkbox', "ipaddresslistsubnets[$subnetid]", '', $subnetname);
-        }
-        $mform->addGroup($group, 'ipaddresslistsubnets', get_string('allowedsubnets', 'quizaccess_ipaddresslist'), '<br />', false);
-        $mform->setAdvanced("ipaddresslistsubnets", $pluginconfig->defaultallowedsubnets_adv);
-        $mform->addHelpButton('ipaddresslistsubnets', 'allowedsubnets', 'quizaccess_ipaddresslist');
     }
 
     /**
