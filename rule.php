@@ -85,6 +85,10 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
         global $DB;
 
         $pluginconfig = get_config('quizaccess_ipaddresslist');
+        if (!isset($pluginconfig->defaultallowedsubnets_adv)) {
+            $pluginconfig->defaultallowedsubnets_adv = true;
+        }
+
         $subnets = $DB->get_records_menu('quizaccess_ipaddresslist_net', array(), 'sortorder ASC, name ASC', 'id, name');
 
         if (!empty($pluginconfig->defaultallowedsubnets)) {
