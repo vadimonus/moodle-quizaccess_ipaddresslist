@@ -70,7 +70,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
                 return false;
             }
         }
-        return get_string('subnetwrong', 'quizaccess_ipaddress');
+        return get_string('subnetwrong', 'quizaccess_ipaddresslist');
     }
 
     /**
