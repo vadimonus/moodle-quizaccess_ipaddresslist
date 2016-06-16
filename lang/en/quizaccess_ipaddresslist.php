@@ -32,5 +32,13 @@ $string['managesubnets'] = 'Locations management';
 $string['pluginname'] = 'IP address list quiz access rule';
 $string['subnet'] = 'IP subnet';
 $string['subnetwrong'] = 'This quiz is only accessible from certain locations, and this computer is not on the allowed list.';
-$string['subnet_help'] = '<p>Specify comma-separated list of partial or full IP address numbers.</p><p>Examples:</p><ul><li>192.168.10.1</li><li>192.168.</li><li>231.54.211.0/20</li><li>231.3.56.10-20</li><li>192.168.10.1,192.168.,231.54.211.0/20,231.3.56.10-20</li></ul>';
+$string['subnet_help'] = 'Specify comma-separated list of partial or full IP address numbers.
+
+Examples:
+
+* 192.168.10.1
+* 192.168.
+* 231.54.211.0/20
+* 231.3.56.10-20
+* 192.168.10.1,192.168.,231.54.211.0/20,231.3.56.10-20';
 
