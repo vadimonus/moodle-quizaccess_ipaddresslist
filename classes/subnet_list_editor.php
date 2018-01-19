@@ -88,37 +88,27 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
         $actions = '';
         if ($current != 1 && $count > 1) {
             $upurl = new moodle_url($url, array('action' => 'up', 'id' => $subnet->id));
-            $upimg = html_writer::img($OUTPUT->pix_url('t/up'), get_string('up'), array('class' => 'iconsmall'));
-            $upattr = array('title' => get_string('up'));
-            $uplink = html_writer::link($upurl, $upimg, $upattr);
-            $actions .= $uplink;
+            $upicon = new pix_icon('t/up', get_string('up'));
+            $actions .= $OUTPUT->action_link($upurl, '', null, array(), $upicon);
         } else {
-            $upimg = html_writer::img($OUTPUT->pix_url('spacer'), '', array('class' => 'iconsmall'));
-            $actions .= $upimg;
+            $actions .= $OUTPUT->pix_icon('spacer', '');
         }
 
         if ($current != $count && $count > 1) {
             $downurl = new moodle_url($url, array('action' => 'down', 'id' => $subnet->id));
-            $downimg = html_writer::img($OUTPUT->pix_url('t/down'), get_string('down'), array('class' => 'iconsmall'));
-            $downattr = array('title' => get_string('down'));
-            $downlink = html_writer::link($downurl, $downimg, $downattr);
-            $actions .= $downlink;
+            $downicon = new pix_icon('t/down', get_string('down'));
+            $actions .= $OUTPUT->action_link($downurl, '', null, array(), $downicon);
         } else {
-            $downimg = html_writer::img($OUTPUT->pix_url('spacer'), '', array('class' => 'iconsmall'));
-            $actions .= $downimg;
+            $actions .= $OUTPUT->pix_icon('spacer', '');
         }
 
         $editurl = new moodle_url('/mod/quiz/accessrule/ipaddresslist/subnet.php', array('id' => $subnet->id));
-        $editimg = html_writer::img($OUTPUT->pix_url('t/edit'), get_string('edit'), array('class' => 'iconsmall'));
-        $editattr = array('title' => get_string('edit'));
-        $editlink = html_writer::link($editurl, $editimg, $editattr);
-        $actions .= $editlink;
+        $editicon = new pix_icon('t/edit', get_string('edit'));
+        $actions .= $OUTPUT->action_link($editurl, '', null, array(), $editicon);
 
         $deleteurl = new moodle_url($url, array('action' => 'delete', 'id' => $subnet->id));
-        $deleteimg = html_writer::img($OUTPUT->pix_url('t/delete'), get_string('delete'), array('class' => 'iconsmall'));
-        $deleteattr = array('title' => get_string('delete'));
-        $deletelink = html_writer::link($deleteurl, $deleteimg, $deleteattr);
-        $actions .= $deletelink;
+        $deleteicon = new pix_icon('t/delete', get_string('delete'));
+        $actions .= $OUTPUT->action_link($deleteurl, '', null, array(), $deleteicon);
 
         return $actions;
     }
@@ -147,9 +137,8 @@ class quizaccess_ipaddresslist_subnet_list_editor extends admin_setting {
             $current++;
         }
         $addurl = new moodle_url('/mod/quiz/accessrule/ipaddresslist/subnet.php');
-        $addimg = html_writer::img($OUTPUT->pix_url('t/add'), get_string('add'), array('class' => 'iconsmall'));
-        $addattr = array('title' => get_string('add'));
-        $addlink = html_writer::link($addurl, $addimg, $addattr);
+        $addicon = new pix_icon('t/add', get_string('add'));
+        $addlink = $OUTPUT->action_link($addurl, '', null, array(), $addicon);
         $table->data[] = array($addlink, '', '');
 
         $return = $OUTPUT->heading(get_string('managesubnets', 'quizaccess_ipaddresslist'), 3);

@@ -35,3 +35,6 @@ Release 1.0 (build 2016041902):
 Release 1.1 (build 2016051500):
 - Using checkboxes instead of multiselect list.
 - Fixing problem with empty new settings page on plugin install.
+
+Release 1.2 (build 2018011900):
+- Support for moodle 3.3 and later
