@@ -12,7 +12,7 @@ visit your Admin Notification page to complete the installation.
 
 Usage
 -----
-Visit admin page to configure IP adress list. When you setup quiz, you may select any named IP list. 
+Visit admin page to configure IP address list. When you setup quiz, you may select any named IP list. 
 Selecting none means that this limitation will not apply.
 
 Author
@@ -38,3 +38,6 @@ Release 1.1 (build 2016051500):
 
 Release 1.2 (build 2018011900):
 - Support for moodle 3.3 and later
+
+Release 1.3 (build 2021010300):
+- Privacy provider implementation.
