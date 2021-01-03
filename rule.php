@@ -75,7 +75,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
 
     /**
      * Add any fields that this rule requires to the quiz settings form. This
-     * method is called from {@link mod_quiz_mod_form::definition()}, while the
+     * method is called from {@see mod_quiz_mod_form::definition()}, while the
      * security seciton is being built.
      * @param mod_quiz_mod_form $quizform the quiz settings form that is being built.
      * @param MoodleQuickForm $mform the wrapped MoodleQuickForm.
@@ -113,7 +113,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
 
     /**
      * Save any submitted settings when the quiz settings form is submitted. This
-     * is called from {@link quiz_after_add_or_update()} in lib.php.
+     * is called from {@see quiz_after_add_or_update()} in lib.php.
      * @param object $quiz the data from the quiz form, including $quiz->id
      *      which is the id of the quiz being saved.
      */
@@ -133,7 +133,7 @@ class quizaccess_ipaddresslist extends quiz_access_rule_base {
 
     /**
      * Delete any rule-specific settings when the quiz is deleted. This is called
-     * from {@link quiz_delete_instance()} in lib.php.
+     * from {@see quiz_delete_instance()} in lib.php.
      * @param object $quiz the data from the database, including $quiz->id
      *      which is the id of the quiz being deleted.
      * @since Moodle 2.7.1, 2.6.4, 2.5.7
