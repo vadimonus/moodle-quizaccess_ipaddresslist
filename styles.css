@@ -1,5 +1,12 @@
+/* For Clean theme */
 .mform #fgroup_id_ipaddresslistsubnets.fitem .felement > span {
     display: block;
+}
+
+/* For Boost theme */
+.mform #fgroup_id_ipaddresslistsubnets.fitem .felement > fieldset > div {
+    flex-direction: column !important;
+    align-items: start !important;
 }
 
 .mform #fgroup_id_ipaddresslistsubnets.fitem .felement {

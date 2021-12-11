@@ -41,3 +41,6 @@ Release 1.2 (build 2018011900):
 
 Release 1.3 (build 2021010300):
 - Privacy provider implementation.
+
+Release 1.3.1 (build 2021121200):
+- Vertical checkboxes list in quiz options in boost theme.
