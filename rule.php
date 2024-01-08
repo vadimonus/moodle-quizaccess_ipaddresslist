@@ -22,9 +22,10 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+use mod_quiz\local\access_rule_base;
+use mod_quiz\quiz_settings;
 
-require_once($CFG->dirroot . '/mod/quiz/accessrule/accessrulebase.php');
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * Rule class.
@@ -33,18 +34,18 @@ require_once($CFG->dirroot . '/mod/quiz/accessrule/accessrulebase.php');
  * @copyright  2016 Vadim Dvorovenko <Vadimon@mail.ru>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class quizaccess_ipaddresslist extends quiz_access_rule_base {
+class quizaccess_ipaddresslist extends access_rule_base {
 
     /**
      * Return an appropriately configured instance of this rule, if it is applicable
      * to the given quiz, otherwise return null.
-     * @param quiz $quizobj information about the quiz in question.
+     * @param quiz_settings $quizobj information about the quiz in question.
      * @param int $timenow the time that should be considered as 'now'.
      * @param bool $canignoretimelimits whether the current user is exempt from
      *      time limits by the mod/quiz:ignoretimelimits capability.
-     * @return quiz_access_rule_base|null the rule, if applicable, else null.
+     * @return self|null the rule, if applicable, else null.
      */
-    public static function make(quiz $quizobj, $timenow, $canignoretimelimits) {
+    public static function make(quiz_settings $quizobj, $timenow, $canignoretimelimits) {
         if (!empty($quizobj->get_quiz()->ipaddresslistsubnetsarray)) {
             return new self($quizobj, $timenow);
         } else {
