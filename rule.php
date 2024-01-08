@@ -27,6 +27,18 @@ use mod_quiz\quiz_settings;
 
 defined('MOODLE_INTERNAL') || die();
 
+// For compatibility with 4.1 and earlier.
+if (!class_exists('\mod_quiz\local\access_rule_base')) {
+    global $CFG;
+    require_once($CFG->dirroot . '/mod/quiz/accessrule/accessrulebase.php');
+    class_alias('\quiz_access_rule_base', '\mod_quiz\local\access_rule_base');
+}
+if (!class_exists('\mod_quiz\quiz_settings')) {
+    global $CFG;
+    require_once($CFG->dirroot . '/mod/quiz/attemptlib.php');
+    class_alias('\quiz', '\mod_quiz\quiz_settings');
+}
+
 /**
  * Rule class.
  *
