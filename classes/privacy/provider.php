@@ -24,7 +24,7 @@
 
 namespace quizaccess_ipaddresslist\privacy;
 
-defined('MOODLE_INTERNAL') || die();
+// phpcs:disable PSR2.Methods.MethodDeclaration.Underscore
 
 /**
  * Rule that blocks attempt to open same quiz attempt in other session
