@@ -44,3 +44,6 @@ Release 1.3 (build 2021010300):
 
 Release 1.3.1 (build 2021121200):
 - Vertical checkboxes list in quiz options in boost theme.
+
+Release 1.3.2 (build 2024010800):
+- Fix warnings on 4.2 and higher
