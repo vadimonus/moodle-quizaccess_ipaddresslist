@@ -33,13 +33,13 @@ $id = required_param('id', PARAM_INT);
 
 switch ($action) {
     case 'delete':
-        $DB->delete_records('quizaccess_ipaddresslist', array('subnetid' => $id));
-        $DB->delete_records('quizaccess_ipaddresslist_net', array('id' => $id));
+        $DB->delete_records('quizaccess_ipaddresslist', ['subnetid' => $id]);
+        $DB->delete_records('quizaccess_ipaddresslist_net', ['id' => $id]);
         quizaccess_ipaddresslist_reorder_subnets();
         break;
 
     case 'up':
-        $subnets = $DB->get_records('quizaccess_ipaddresslist_net', array(), 'sortorder ASC, name ASC');
+        $subnets = $DB->get_records('quizaccess_ipaddresslist_net', [], 'sortorder ASC, name ASC');
         $previous = null;
         foreach ($subnets as $subnet) {
             if ($subnet->id == $id) {
@@ -58,7 +58,7 @@ switch ($action) {
         break;
 
     case 'down':
-        $subnets = $DB->get_records('quizaccess_ipaddresslist_net', array(), 'sortorder DESC, name DESC');
+        $subnets = $DB->get_records('quizaccess_ipaddresslist_net', [], 'sortorder DESC, name DESC');
         $previous = null;
         foreach ($subnets as $subnet) {
             if ($subnet->id == $id) {
@@ -77,14 +77,14 @@ switch ($action) {
         break;
 }
 
-redirect(new moodle_url('/admin/settings.php', array('section' => 'modsettingsquizcatipaddresslist')));
+redirect(new moodle_url('/admin/settings.php', ['section' => 'modsettingsquizcatipaddresslist']));
 
 /**
  * Fixes sortorder.
  */
 function quizaccess_ipaddresslist_reorder_subnets() {
     global $DB;
-    $subnets = $DB->get_records('quizaccess_ipaddresslist_net', array(), 'sortorder ASC, name ASC');
+    $subnets = $DB->get_records('quizaccess_ipaddresslist_net', [], 'sortorder ASC, name ASC');
     $current = 1;
     foreach ($subnets as $subnet) {
         if ($subnet->sortorder != $current) {

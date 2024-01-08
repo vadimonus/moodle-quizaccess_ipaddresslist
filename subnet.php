@@ -30,7 +30,7 @@ require_capability('moodle/site:config', context_system::instance());
 $id = optional_param('id', 0, PARAM_INT);
 
 $PAGE->set_pagelayout('admin');
-$pageurl = new moodle_url('/admin/settings.php', array('section' => 'modsettingsquizcatipaddresslist'));
+$pageurl = new moodle_url('/admin/settings.php', ['section' => 'modsettingsquizcatipaddresslist']);
 $PAGE->set_url($pageurl);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('editsubnet', 'quizaccess_ipaddresslist'));
@@ -39,7 +39,7 @@ $PAGE->set_heading($COURSE->fullname);
 $formurl = new moodle_url('/mod/quiz/accessrule/ipaddresslist/subnet.php');
 $mform = new quizaccess_ipaddresslist_edit_form($formurl);
 if ($id) {
-    $subnet = $DB->get_record('quizaccess_ipaddresslist_net', array('id' => $id));
+    $subnet = $DB->get_record('quizaccess_ipaddresslist_net', ['id' => $id]);
     $mform->set_data($subnet);
 }
 

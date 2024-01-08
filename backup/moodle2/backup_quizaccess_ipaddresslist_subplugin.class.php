@@ -51,11 +51,11 @@ class backup_quizaccess_ipaddresslist_subplugin extends backup_mod_quiz_access_s
         $subpluginwrapper = new backup_nested_element($this->get_recommended_name());
         $subplugin->add_child($subpluginwrapper);
 
-        $subplugintablesettings = new backup_nested_element('quizaccess_ipaddresslist', null, array('subnetid'));
+        $subplugintablesettings = new backup_nested_element('quizaccess_ipaddresslist', null, ['subnetid']);
         $subpluginwrapper->add_child($subplugintablesettings);
 
         $subplugintablesettings->set_source_table('quizaccess_ipaddresslist',
-                array('quizid' => backup::VAR_ACTIVITYID));
+                ['quizid' => backup::VAR_ACTIVITYID]);
 
         return $subplugin;
     }

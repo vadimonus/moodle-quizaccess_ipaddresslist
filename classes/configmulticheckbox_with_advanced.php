@@ -54,13 +54,13 @@ class quizaccess_ipaddresslist_configmulticheckbox_with_advanced extends admin_s
         $result = $this->config_read($this->name);
 
         if (is_null($result)) {
-            return array();
+            return [];
         }
         if ($result === '') {
-            return array();
+            return [];
         }
         $enabled = explode(',', $result);
-        $setting = array();
+        $setting = [];
         foreach ($enabled as $option) {
             $setting[$option] = 1;
         }

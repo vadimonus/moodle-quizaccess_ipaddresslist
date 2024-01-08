@@ -44,7 +44,7 @@ class restore_quizaccess_ipaddresslist_subplugin extends restore_mod_quiz_access
      */
     protected function define_quiz_subplugin_structure() {
 
-        $paths = array();
+        $paths = [];
 
         $elename = $this->get_namefor('');
         $elepath = $this->get_pathfor('/quizaccess_ipaddresslist');
@@ -65,7 +65,7 @@ class restore_quizaccess_ipaddresslist_subplugin extends restore_mod_quiz_access
         }
         $data = (object)$data;
         $data->quizid = $this->get_new_parentid('quiz');
-        if ($DB->record_exists('quizaccess_ipaddresslist_net', array('id' => $data->subnetid))) {
+        if ($DB->record_exists('quizaccess_ipaddresslist_net', ['id' => $data->subnetid])) {
             $DB->insert_record('quizaccess_ipaddresslist', $data);
         }
     }
